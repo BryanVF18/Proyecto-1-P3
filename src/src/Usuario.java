@@ -1,9 +1,9 @@
 public abstract class Usuario {
      String id;
-     int clave;
+     String clave;
      String rol;
 
-    public Usuario(String id, int clave, String rol) {
+    public Usuario(String id, String clave, String rol) {
         this.id = id;
         this.clave = clave;
         this.rol = rol;
@@ -17,11 +17,11 @@ public abstract class Usuario {
         this.id = id;
     }
 
-    public int getClave() {
+    public String getClave() {
         return clave;
     }
 
-    public void setClave(int clave) {
+    public void setClave(String clave) {
         this.clave = clave;
     }
 
@@ -31,5 +31,13 @@ public abstract class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public boolean cambiarClave(String claveActual, String nuevaClave){
+        if(this.clave.equals(claveActual)){
+            clave = nuevaClave;
+            return true;
+        }
+        return false;
     }
 }
