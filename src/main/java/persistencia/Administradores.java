@@ -1,4 +1,7 @@
 package persistencia;
+// Wrapper que JAXB necesita para guardar una LISTA de esta entidad
+// en un solo archivo XML. No es una entidad del negocio, es un detalle tecnico.
+// Aplica para las demas clases Categorias/Recursos/Reservas/Funcionarios.
 
 import modelo.Administrador;
 import jakarta.xml.bind.annotation.XmlElement;

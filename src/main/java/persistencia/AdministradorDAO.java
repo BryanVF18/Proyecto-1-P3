@@ -1,4 +1,6 @@
 package persistencia;
+//Leer comentarios, aplican para todos los DAOs
+//RecursoDAO/ReservaDAO/AdministradorDAO/FuncionarioDAO
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -9,10 +11,14 @@ import modelo.Administrador;
 import java.io.File;
 import java.util.List;
 
+// Unico punto del sistema que sabe leer/escribir categorias.xml.
+// El resto del programa solo llama guardarTodas() / buscarTodas(),
+// sin preocuparse de como se guarda por dentro.
 public class AdministradorDAO {
 
     private static final String ARCHIVO = "administradores.xml";
 
+    // Convierte la lista completa a XML y la escribe en el archivo.
     public void guardarTodas(List<Administrador> administradores) {
         try {
             Administradores envoltorio = new Administradores();
@@ -28,6 +34,8 @@ public class AdministradorDAO {
         }
     }
 
+    // Lee el archivo y lo convierte de vuelta en una lista de objetos.
+    // Si el archivo no existe todavia (primera ejecucion), devuelve lista vacia.
     public List<Administrador> buscarTodas() {
         File archivo = new File(ARCHIVO);
         if (!archivo.exists()) {

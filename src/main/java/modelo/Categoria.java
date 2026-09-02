@@ -1,4 +1,6 @@
 package modelo;
+// Entidad del negocio. No sabe nada de XML ni de pantallas,
+// solo representa el dato tal como lo define el enunciado.
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

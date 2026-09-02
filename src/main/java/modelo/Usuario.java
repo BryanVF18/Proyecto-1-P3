@@ -1,5 +1,7 @@
 package modelo;
 
+// Clase base abstracta para Administrador y Funcionario.
+// Guarda id, clave y rol, y controla el cambio de clave.
 public abstract class Usuario {
      protected String id;
      protected String clave;

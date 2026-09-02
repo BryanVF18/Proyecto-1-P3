@@ -1,4 +1,6 @@
 package modelo;
+// Entidad del negocio. No sabe nada de XML ni de pantallas,
+// solo representa el dato tal como lo define el enunciado.
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -8,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 public class Recurso {
-    private String id;
+    private String id; // numero de activo, lo asigna el usuario, NO es autogenerado (a diferencia de Categoria)
     private String categoria;
     private String descripcion;
 

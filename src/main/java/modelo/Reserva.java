@@ -1,4 +1,6 @@
 package modelo;
+// Entidad del negocio. No sabe nada de XML ni de pantallas,
+// solo representa el dato tal como lo define el enunciado.
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -112,6 +114,8 @@ public class Reserva {
         this.estado = estado;
     }
 
+    // Compara si esta reserva choca en fecha/hora con otro horario.
+    // Se usa antes de asignar un recurso, para validar disponibilidad.
     public boolean seSuperponeCon(LocalDate otraFecha, LocalTime otraHoraInicio, LocalTime otraHoraFin) {
         if (!this.fecha.equals(otraFecha) || !"ACTIVA".equals(this.estado)) {
             return false;
