@@ -1,7 +1,9 @@
+package modelo;
+
 public abstract class Usuario {
-     String id;
-     String clave;
-     String rol;
+     protected String id;
+     protected String clave;
+     protected String rol;
 
     public Usuario(String id, String clave, String rol) {
         this.id = id;
