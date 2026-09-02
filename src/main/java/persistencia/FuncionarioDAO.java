@@ -1,47 +1,46 @@
 package persistencia;
 
-import modelo.Categoria;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
+import modelo.Funcionario;
 
 import java.io.File;
 import java.util.List;
 
-public class CategoriaDAO {
+public class FuncionarioDAO {
 
-    private static final String ARCHIVO = "categorias.xml";
+    private static final String ARCHIVO = "funcionarios.xml";
 
-    public void guardarTodas(List<Categoria> categorias) {
+    public void guardarTodas(List<Funcionario> funcionarios) {
         try {
-            Categorias envoltorio = new Categorias();
-            envoltorio.setListado(categorias);
+            Funcionarios envoltorio = new Funcionarios();
+            envoltorio.setListado(funcionarios);
 
-            JAXBContext contexto = JAXBContext.newInstance(Categorias.class);
+            JAXBContext contexto = JAXBContext.newInstance(Funcionarios.class);
             Marshaller marshaller = (Marshaller) contexto.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(envoltorio, new File(ARCHIVO));
 
         } catch (JAXBException e) {
-            throw new RuntimeException("Error al guardar categorias", e);
+            throw new RuntimeException("Error al guardar funcionarios", e);
         }
     }
 
-    public List<Categoria> buscarTodas() {
+    public List<Funcionario> buscarTodas() {
         File archivo = new File(ARCHIVO);
         if (!archivo.exists()) {
             return new java.util.ArrayList<>();
         }
         try {
-            JAXBContext contexto = JAXBContext.newInstance(Categorias.class);
+            JAXBContext contexto = JAXBContext.newInstance(Funcionarios.class);
             Unmarshaller unmarshaller = contexto.createUnmarshaller();
-            Categorias envoltorio = (Categorias) unmarshaller.unmarshal(archivo);
+            Funcionarios envoltorio = (Funcionarios) unmarshaller.unmarshal(archivo);
             return envoltorio.getListado();
 
         } catch (JAXBException e) {
-            throw new RuntimeException("Error al leer categorias", e);
+            throw new RuntimeException("Error al leer funcionarios", e);
         }
     }
 }
