@@ -116,10 +116,36 @@ public class Reserva {
 
     // Compara si esta reserva choca en fecha/hora con otro horario.
     // Se usa antes de asignar un recurso, para validar disponibilidad.
-    public boolean seSuperponeCon(LocalDate otraFecha, LocalTime otraHoraInicio, LocalTime otraHoraFin) {
-        if (!this.fecha.equals(otraFecha) || !"ACTIVA".equals(this.estado)) {
+    public boolean seSuperponeCon(
+            LocalDate otraFecha,
+            LocalTime otraHoraInicio,
+            LocalTime otraHoraFin
+    ) {
+        if (fecha == null || horaInicio == null || horaFin == null
+                || otraFecha == null || otraHoraInicio == null || otraHoraFin == null
+                || !fecha.equals(otraFecha) || !estaActiva()) {
+
             return false;
         }
-        return this.horaInicio.isBefore(otraHoraFin) && otraHoraInicio.isBefore(this.horaFin);
+
+        return horaInicio.isBefore(otraHoraFin)
+                && otraHoraInicio.isBefore(horaFin);
     }
+
+    public boolean estaActiva() {
+        return "ACTIVA".equals(estado);
+    }
+
+    public boolean perteneceAlFuncionario(String idFuncionario) {
+        return funcionario != null
+                && idFuncionario != null
+                && idFuncionario.equals(funcionario.getId());
+    }
+
+    public boolean esFutura(LocalDate fechaActual) {
+        return fecha != null
+                && fechaActual != null
+                && fecha.isAfter(fechaActual);
+    }
+
 }
