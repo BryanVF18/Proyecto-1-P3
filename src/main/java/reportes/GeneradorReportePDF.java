@@ -17,15 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-/* Generador de reportes en PDF GENERICO.
-   El enunciado pide que TODAS las funcionalidades (Funcionarios,
-   Categorias, Recursos, Reservas, Calendarizacion, etc.) puedan
-   generar un reporte en PDF. En lugar de repetir el codigo de
-   iText/OpenPDF en cada pantalla, esta clase recibe un titulo,
-   los encabezados de columna y las filas ya convertidas a texto,
-   y arma el PDF con formato de tabla (como el ejemplo del enunciado).
-   Cualquier CRUD del equipo (el mio o el de la Persona C) puede
-   reutilizarla sin tener que entender OpenPDF por dentro. */
 public class GeneradorReportePDF {
 
     private static final Color COLOR_ENCABEZADO = new Color(220, 20, 20);

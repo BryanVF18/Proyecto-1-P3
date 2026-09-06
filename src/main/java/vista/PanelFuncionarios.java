@@ -14,12 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Panel de CRUD de Funcionarios (funcionalidad 3 del enunciado).
-   Es un JPanel comun, pensado para vivir dentro de un JTabbedPane
-   en el dashboard principal del sistema, junto a las pestanas de
-   Categorias, Recursos, Reservas, etc. que arman mis companeros.
-   La vista SOLO conoce a FuncionarioController: no importa ni el
-   DAO ni el service, para respetar el patron MVC. */
 public class PanelFuncionarios extends JPanel {
 
     private JTextField txtBuscarId;
@@ -34,8 +28,6 @@ public class PanelFuncionarios extends JPanel {
 
     private final FuncionarioController controlador = new FuncionarioController();
 
-    // Controla si "Guardar" va a agregar un funcionario nuevo o a
-    // modificar el que esta seleccionado en la tabla.
     private boolean modoEdicion = false;
 
     public PanelFuncionarios() {
@@ -55,9 +47,8 @@ public class PanelFuncionarios extends JPanel {
         actualizarTabla(controlador.listarTodos());
     }
 
-    // =========================================================
-    // BUSQUEDA
-    // =========================================================
+    // Busqueda
+
     private JPanel crearPanelBusqueda() {
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
@@ -82,9 +73,8 @@ public class PanelFuncionarios extends JPanel {
         return panel;
     }
 
-    // =========================================================
-    // FORMULARIO
-    // =========================================================
+    // Formulario
+
     private JPanel crearPanelFormulario() {
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -140,9 +130,9 @@ public class PanelFuncionarios extends JPanel {
         return panel;
     }
 
-    // =========================================================
-    // TABLA
-    // =========================================================
+
+    // Tabla
+
     private JScrollPane crearPanelTabla() {
 
         String[] columnas = {"Id", "Nombre", "Telefono"};
@@ -170,9 +160,9 @@ public class PanelFuncionarios extends JPanel {
         return scroll;
     }
 
-    // =========================================================
-    // ACCIONES
-    // =========================================================
+
+    // Acciones
+
     private void buscar() {
 
         String id = txtBuscarId.getText().trim();
@@ -294,9 +284,9 @@ public class PanelFuncionarios extends JPanel {
         }
     }
 
-    // =========================================================
-    // REPORTE PDF
-    // =========================================================
+
+    // Reporte PDF
+
     private void imprimirReporte() {
 
         JFileChooser selector = new JFileChooser();

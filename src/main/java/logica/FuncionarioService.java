@@ -6,10 +6,6 @@ import persistencia.FuncionarioDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Contiene las reglas de negocio del CRUD de Funcionarios.
-   Ni la vista ni el controlador hablan directamente con el DAO:
-   siempre pasan por esta clase, que es la unica que decide
-   si una operacion es valida antes de guardar en el XML. */
 public class FuncionarioService {
 
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
@@ -51,9 +47,6 @@ public class FuncionarioService {
         return resultado;
     }
 
-    /* Segun el enunciado (funcionalidad 3): al agregar un funcionario,
-       la clave de su usuario queda igual al id. El funcionario podra
-       cambiarla despues usando LoginService.cambiarClave(). */
     public Funcionario agregar(String id, String nombre, String telefono) throws FuncionarioException {
 
         validarCamposObligatorios(id, nombre);
