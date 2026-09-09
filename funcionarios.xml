@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<funcionarios>
+    <funcionario>
+        <clave>f01</clave>
+        <id>f01</id>
+        <rol>FUNCIONARIO</rol>
+        <nombre>Lamine Yamal</nombre>
+        <telefono>62758761</telefono>
+    </funcionario>
+</funcionarios>

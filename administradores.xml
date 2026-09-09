@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<administradores>
+    <administrador>
+        <clave>1234</clave>
+        <id>admin</id>
+        <rol>ADMINISTRADOR</rol>
+    </administrador>
+</administradores>
