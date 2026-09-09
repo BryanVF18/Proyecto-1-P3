@@ -128,14 +128,17 @@ public class PanelReserva extends JPanel {
         JButton btnReservar = new JButton("Reservar");
         JButton btnLimpiar = new JButton("Limpiar");
         JButton btnActualizar = new JButton("Actualizar lista");
+        JButton btnCancelarReserva = new JButton("Cancelar reserva");
 
         btnReservar.addActionListener(e -> reservar());
         btnLimpiar.addActionListener(e -> limpiar());
         btnActualizar.addActionListener(e -> actualizarTabla());
+        btnCancelarReserva.addActionListener(e -> cancelarReserva());
 
         panelBotones.add(btnReservar);
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnActualizar);
+        panelBotones.add(btnCancelarReserva);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -305,4 +308,57 @@ public class PanelReserva extends JPanel {
         cmbHoraFin.setSelectedItem("09:00");
         listaCategorias.clearSelection();
     }
+
+    private void cancelarReserva() {
+        int filaSeleccionada = tablaReservas.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Debe seleccionar una reserva de la tabla",
+                    "Cancelar reserva",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        String idReserva = modeloTabla.getValueAt(
+                filaSeleccionada,
+                0
+        ).toString();
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea cancelar la reserva " + idReserva + "?",
+                "Confirmar cancelación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            reservaController.cancelarReserva(
+                    idReserva,
+                    funcionarioActual
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Reserva cancelada correctamente"
+            );
+
+            actualizarTabla();
+
+        } catch (ReservaException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "No fue posible cancelar la reserva",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }
+
 }

@@ -27,4 +27,9 @@ public class ReservaController {
 
         return reservaService.crearReserva(solicitud, funcionario);
     }
+
+    public void cancelarReserva(String idReserva, Funcionario funcionario)
+            throws ReservaException {
+        reservaService.cancelarReserva(idReserva, funcionario);
+    }
 }

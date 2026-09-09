@@ -150,20 +150,18 @@ public class ReservaService {
         return null;
     }
 
-    private boolean recursoEstaDisponible(
-            Recurso recurso,
-            SolicitudReserva solicitud,
-            List<Reserva> reservas
-    ) {
-
+    private boolean recursoEstaDisponible(Recurso recurso, SolicitudReserva solicitud,
+            List<Reserva> reservas) {
         for (int i = 0; i < reservas.size(); i++) {
             Reserva reserva = reservas.get(i);
 
-            if (reserva.seSuperponeCon(
+            if (reserva.estaActiva()
+                    && reserva.seSuperponeCon(
                     solicitud.getFecha(),
                     solicitud.getHoraInicio(),
                     solicitud.getHoraFin()
-            ) && reservaUsaRecurso(reserva, recurso.getId())) {
+            )
+                    && reservaUsaRecurso(reserva, recurso.getId())) {
 
                 return false;
             }
@@ -247,4 +245,40 @@ public class ReservaService {
 
         return String.format("RES-%06d", maximoActual + 1);
     }
+//aqui no eliminamos la reserva del XML, solo se cambia de activa a cancelada
+    public void cancelarReserva(String idReserva, Funcionario funcionario) throws ReservaException {
+        List<Reserva> reservas = reservaDAO.buscarTodas();
+
+        Reserva reservaEncontrada = null;
+
+        for (int i = 0; i < reservas.size(); i++) {
+            Reserva reserva = reservas.get(i);
+
+            if (reserva.getId().equals(idReserva)) {
+                reservaEncontrada = reserva;
+                break;
+            }
+        }
+
+        if (reservaEncontrada == null) {
+            throw new ReservaException("La reserva seleccionada no existe");
+        }
+
+        if (!reservaEncontrada.perteneceAlFuncionario(funcionario.getId())) {
+            throw new ReservaException("No puede cancelar una reserva de otro funcionario");
+        }
+
+        if (!reservaEncontrada.esFutura(LocalDate.now())) {
+            throw new ReservaException("Solo se pueden cancelar reservas futuras");
+        }
+
+        if (!reservaEncontrada.estaActiva()) {
+            throw new ReservaException("La reserva ya se encuentra cancelada");
+        }
+
+        reservaEncontrada.setEstado("CANCELADA");
+
+        reservaDAO.guardarTodas(reservas);
+    }
+
 }
