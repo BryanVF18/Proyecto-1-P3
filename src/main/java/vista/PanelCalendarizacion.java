@@ -1,4 +1,8 @@
 package vista;
+import reportes.GeneradorReportePDF;
+
+import java.io.File;
+import java.io.IOException;
 
 import controlador.CalendarizacionController;
 import modelo.Categoria;
@@ -64,6 +68,12 @@ public class PanelCalendarizacion extends JPanel {
         btnConsultar.addActionListener(e -> actualizarTabla());
 
         panel.add(btnConsultar);
+
+        JButton btnImprimir = new JButton("Imprimir");
+
+        btnImprimir.addActionListener(e -> imprimirReporte());
+
+        panel.add(btnImprimir);
 
         return panel;
     }
@@ -215,4 +225,85 @@ public class PanelCalendarizacion extends JPanel {
                     .setPreferredWidth(160);
         }
     }
+
+    private void imprimirReporte() {
+
+        if (modeloTabla.getColumnCount() == 0
+                || modeloTabla.getRowCount() == 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No hay datos para generar el reporte.",
+                    "Sin datos",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        JFileChooser selector = new JFileChooser();
+
+        selector.setSelectedFile(
+                new File("calendarizacion.pdf")
+        );
+
+        int opcion = selector.showSaveDialog(this);
+
+        if (opcion != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        String ruta = selector.getSelectedFile().getAbsolutePath();
+
+        if (!ruta.toLowerCase().endsWith(".pdf")) {
+            ruta = ruta + ".pdf";
+        }
+
+        String[] columnas = new String[modeloTabla.getColumnCount()];
+
+        for (int i = 0; i < modeloTabla.getColumnCount(); i++) {
+            columnas[i] = modeloTabla.getColumnName(i);
+        }
+
+        List<String[]> filas = new ArrayList<>();
+
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+
+            String[] fila = new String[modeloTabla.getColumnCount()];
+
+            for (int j = 0; j < modeloTabla.getColumnCount(); j++) {
+
+                fila[j] = String.valueOf(
+                        modeloTabla.getValueAt(i, j)
+                );
+            }
+
+            filas.add(fila);
+        }
+
+        try {
+
+            GeneradorReportePDF.generar(
+                    ruta,
+                    "Calendarizacion de Recursos",
+                    columnas,
+                    filas
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Reporte generado correctamente."
+            );
+
+        } catch (IOException | com.lowagie.text.DocumentException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No se pudo generar el reporte: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
 }
