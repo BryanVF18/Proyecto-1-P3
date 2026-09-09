@@ -11,7 +11,7 @@ public class VistaPrincipal extends JFrame {
 
     private final Usuario usuarioActual;
 
-    private JTabbedPane pestañas;
+    private JTabbedPane pestanas;
 
     public VistaPrincipal(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
@@ -29,11 +29,11 @@ public class VistaPrincipal extends JFrame {
 
         add(crearPanelSuperior(), BorderLayout.NORTH);
 
-        pestañas = new JTabbedPane();
+        pestanas = new JTabbedPane();
 
-        cargarPestañas();
+        cargarPestanas();
 
-        add(pestañas, BorderLayout.CENTER);
+        add(pestanas, BorderLayout.CENTER);
     }
 
     private JPanel crearPanelSuperior() {
@@ -53,7 +53,7 @@ public class VistaPrincipal extends JFrame {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton btnCambiarClave = new JButton("Cambiar clave");
-        JButton btnCerrarSesion = new JButton("Cerrar sesión");
+        JButton btnCerrarSesion = new JButton("Cerrar sesion");
 
         btnCambiarClave.addActionListener(
                 e -> abrirCambioClave()
@@ -71,37 +71,48 @@ public class VistaPrincipal extends JFrame {
         return panel;
     }
 
-    private void cargarPestañas() {
+    private void cargarPestanas() {
         if (usuarioActual instanceof Administrador) {
-            cargarPestañasAdministrador();
+            cargarPestanasAdministrador();
+
         } else if (usuarioActual instanceof Funcionario) {
-            cargarPestañasFuncionario();
+            cargarPestanasFuncionario();
         }
     }
 
-    private void cargarPestañasAdministrador() {
-        pestañas.addTab(
+    private void cargarPestanasAdministrador() {
+        pestanas.addTab(
                 "Funcionarios",
                 new PanelFuncionarios()
         );
 
-        pestañas.addTab(
-                "Categorías",
+        pestanas.addTab(
+                "Categorias",
                 new PanelCategorias()
         );
 
-        pestañas.addTab(
+        pestanas.addTab(
                 "Recursos",
                 new PanelRecursos()
         );
+
+        pestanas.addTab(
+                "Calendarizacion",
+                new PanelCalendarizacion()
+        );
     }
 
-    private void cargarPestañasFuncionario() {
+    private void cargarPestanasFuncionario() {
         Funcionario funcionario = (Funcionario) usuarioActual;
 
-        pestañas.addTab(
+        pestanas.addTab(
                 "Reservas",
                 new PanelReservas(funcionario)
+        );
+
+        pestanas.addTab(
+                "Calendarizacion",
+                new PanelCalendarizacion()
         );
     }
 
@@ -117,8 +128,8 @@ public class VistaPrincipal extends JFrame {
     private void cerrarSesion() {
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
-                "¿Desea cerrar la sesión?",
-                "Cerrar sesión",
+                "Desea cerrar la sesion?",
+                "Cerrar sesion",
                 JOptionPane.YES_NO_OPTION
         );
 
