@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PanelReserva extends JPanel {
+public class PanelReservas extends JPanel {
 
     private JTextField txtActividad;
     private JSpinner spnFecha;
@@ -37,7 +37,7 @@ public class PanelReserva extends JPanel {
 
     private List<Categoria> categoriasDisponibles;
 
-    public PanelReserva(Funcionario funcionarioActual) {
+    public PanelReservas(Funcionario funcionarioActual) {
         this.funcionarioActual = funcionarioActual;
         this.reservaController = new ReservaController();
         this.categoriaController = new CategoriaController();
