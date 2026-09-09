@@ -56,10 +56,10 @@ public class ValidadorSolicitudReserva {
             );
         }
 
-        if (solicitud.getIdsCategorias().isEmpty()) {
+        if (solicitud.getIdsCategorias() == null || solicitud.getIdsCategorias().isEmpty()) {
+
             throw new ReservaException(
-                    "Debe seleccionar al menos una categoria de recurso"
-            );
+                    "Debe seleccionar al menos una categoria de recurso");
         }
 
         Set<String> idsSinRepetir = new HashSet<>();

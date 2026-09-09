@@ -1,5 +1,8 @@
 package vista;
+import reportes.GeneradorReportePDF;
 
+import java.io.File;
+import java.io.IOException;
 import controlador.CategoriaController;
 import controlador.ReservaController;
 import logica.ReservaException;
@@ -129,16 +132,19 @@ public class PanelReserva extends JPanel {
         JButton btnLimpiar = new JButton("Limpiar");
         JButton btnActualizar = new JButton("Actualizar lista");
         JButton btnCancelarReserva = new JButton("Cancelar reserva");
+        JButton btnReporte = new JButton("Generar PDF");
 
         btnReservar.addActionListener(e -> reservar());
         btnLimpiar.addActionListener(e -> limpiar());
         btnActualizar.addActionListener(e -> actualizarTabla());
         btnCancelarReserva.addActionListener(e -> cancelarReserva());
+        btnReporte.addActionListener(e -> imprimirReporte());
 
         panelBotones.add(btnReservar);
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnActualizar);
         panelBotones.add(btnCancelarReserva);
+        panelBotones.add(btnReporte);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -360,5 +366,51 @@ public class PanelReserva extends JPanel {
             );
         }
     }
+    private void imprimirReporte() {
 
+        JFileChooser selector = new JFileChooser();
+        selector.setSelectedFile(new File("reservas.pdf"));
+
+        int opcion = selector.showSaveDialog(this);
+
+        if (opcion != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        String ruta = selector.getSelectedFile().getAbsolutePath();
+
+        if (!ruta.toLowerCase().endsWith(".pdf")) {
+            ruta += ".pdf";
+        }
+
+        List<String[]> filas = new ArrayList<>();
+
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+
+            String[] fila = new String[6];
+
+            for (int j = 0; j < 6; j++) {
+                fila[j] = String.valueOf(
+                        modeloTabla.getValueAt(i, j)
+                );
+            }
+            filas.add(fila);
+        }
+
+        try {
+            GeneradorReportePDF.generar(
+                    ruta,
+                    "Mis Reservas",
+                    new String[]{"Id", "Actividad", "Fecha", "Horario", "Recursos", "Estado"}, filas
+            );
+
+            JOptionPane.showMessageDialog(this, "Reporte generado correctamente");
+
+        } catch (IOException | com.lowagie.text.DocumentException e) {
+
+            JOptionPane.showMessageDialog(this, "No se pudo generar el reporte: " +
+                    e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
 }
