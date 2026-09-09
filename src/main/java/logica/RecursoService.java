@@ -92,33 +92,47 @@ public class RecursoService {
         return nuevo;
     }
 
-    public void modificar(String id, String categoria, String descripcion) throws RecursoException {
+    public void modificar(String idActual, String nuevoId, String categoria, String descripcion) throws RecursoException {
 
-        validarCamposObligatorios(id, categoria, descripcion);
+        validarCamposObligatorios(nuevoId, categoria, descripcion);
 
         List<Recurso> recursos = recursoDAO.buscarTodas();
-        boolean encontrado = false;
+        Recurso recursoEncontrado = null;
 
         for (int i = 0; i < recursos.size(); i++) {
             Recurso r = recursos.get(i);
 
-            if (r.getId().equals(id)) {
-                r.setCategoria(categoria);
-                r.setDescripcion(descripcion);
-                encontrado = true;
+            if (r.getId().equals(idActual)) {
+                recursoEncontrado = r;
                 break;
             }
         }
 
-        if (!encontrado) {
+        if (recursoEncontrado == null) {
             throw new RecursoException(
-                    "No existe un recurso con el id " + id
+                    "No existe un recurso con el id " + idActual
             );
         }
 
+        if (!idActual.equals(nuevoId)) {
+
+            for (int i = 0; i < recursos.size(); i++) {
+                Recurso r = recursos.get(i);
+
+                if (r.getId().equals(nuevoId)) {
+                    throw new RecursoException(
+                            "Ya existe un recurso con el id " + nuevoId
+                    );
+                }
+            }
+        }
+
+        recursoEncontrado.setId(nuevoId);
+        recursoEncontrado.setCategoria(categoria);
+        recursoEncontrado.setDescripcion(descripcion);
+
         recursoDAO.guardarTodas(recursos);
     }
-
     public void eliminar(String id) throws RecursoException {
 
         List<Recurso> recursos = recursoDAO.buscarTodas();

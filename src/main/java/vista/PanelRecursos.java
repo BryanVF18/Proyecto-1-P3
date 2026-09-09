@@ -37,6 +37,7 @@ public class PanelRecursos extends JPanel {
     private List<Recurso> recursosMostrados = new ArrayList<>();
 
     private boolean modoEdicion = false;
+    private String idOriginal;
 
     public PanelRecursos() {
 
@@ -58,23 +59,34 @@ public class PanelRecursos extends JPanel {
     }
 
     private void cargarCategoriasDisponibles() {
+
         categoriasDisponibles = categoriaController.listarTodos();
     }
 
     private DefaultListCellRenderer crearRendererDeCategoria() {
 
         return new DefaultListCellRenderer() {
+
             @Override
             public Component getListCellRendererComponent(
-                    JList<?> lista, Object valor, int indice,
-                    boolean seleccionado, boolean tieneFoco) {
+                    JList<?> lista,
+                    Object valor,
+                    int indice,
+                    boolean seleccionado,
+                    boolean tieneFoco) {
 
                 JLabel etiqueta = (JLabel) super.getListCellRendererComponent(
-                        lista, valor, indice, seleccionado, tieneFoco
+                        lista,
+                        valor,
+                        indice,
+                        seleccionado,
+                        tieneFoco
                 );
 
                 if (valor instanceof Categoria) {
-                    etiqueta.setText(((Categoria) valor).getDescripcion());
+                    etiqueta.setText(
+                            ((Categoria) valor).getDescripcion()
+                    );
                 }
 
                 return etiqueta;
@@ -84,33 +96,67 @@ public class PanelRecursos extends JPanel {
 
     private JPanel crearPanelFiltro() {
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
-        panel.setBorder(new TitledBorder("Filtro"));
+        JPanel panel = new JPanel(
+                new FlowLayout(FlowLayout.LEFT, 8, 5)
+        );
 
-        panel.add(new JLabel("Categoria:"));
+        panel.setBorder(
+                new TitledBorder("Filtro")
+        );
+
+        panel.add(
+                new JLabel("Categoria:")
+        );
 
         cmbFiltroCategoria = new JComboBox<>();
-        cmbFiltroCategoria.setRenderer(crearRendererDeCategoria());
-        cmbFiltroCategoria.addItem(TODAS_LAS_CATEGORIAS);
+        cmbFiltroCategoria.setRenderer(
+                crearRendererDeCategoria()
+        );
+
+        cmbFiltroCategoria.addItem(
+                TODAS_LAS_CATEGORIAS
+        );
+
         for (int i = 0; i < categoriasDisponibles.size(); i++) {
-            cmbFiltroCategoria.addItem(categoriasDisponibles.get(i));
+            cmbFiltroCategoria.addItem(
+                    categoriasDisponibles.get(i)
+            );
         }
+
         panel.add(cmbFiltroCategoria);
 
-        panel.add(new JLabel("Descripcion:"));
+        panel.add(
+                new JLabel("Descripcion:")
+        );
+
         txtBuscarDescripcion = new JTextField(15);
+
         panel.add(txtBuscarDescripcion);
 
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.addActionListener(e -> buscar());
+
+        btnBuscar.addActionListener(
+                e -> buscar()
+        );
+
         panel.add(btnBuscar);
 
         JButton btnImprimir = new JButton("Imprimir");
-        btnImprimir.addActionListener(e -> imprimirReporte());
+
+        btnImprimir.addActionListener(
+                e -> imprimirReporte()
+        );
+
         panel.add(btnImprimir);
 
-        JButton btnActualizarCategorias = new JButton("Actualizar categorias");
-        btnActualizarCategorias.addActionListener(e -> actualizarCombosDeCategoria());
+        JButton btnActualizarCategorias = new JButton(
+                "Actualizar categorias"
+        );
+
+        btnActualizarCategorias.addActionListener(
+                e -> actualizarCombosDeCategoria()
+        );
+
         panel.add(btnActualizarCategorias);
 
         return panel;
@@ -121,21 +167,34 @@ public class PanelRecursos extends JPanel {
         cargarCategoriasDisponibles();
 
         cmbFiltroCategoria.removeAllItems();
-        cmbFiltroCategoria.addItem(TODAS_LAS_CATEGORIAS);
+        cmbFiltroCategoria.addItem(
+                TODAS_LAS_CATEGORIAS
+        );
+
         for (int i = 0; i < categoriasDisponibles.size(); i++) {
-            cmbFiltroCategoria.addItem(categoriasDisponibles.get(i));
+            cmbFiltroCategoria.addItem(
+                    categoriasDisponibles.get(i)
+            );
         }
 
         cmbCategoriaFormulario.removeAllItems();
+
         for (int i = 0; i < categoriasDisponibles.size(); i++) {
-            cmbCategoriaFormulario.addItem(categoriasDisponibles.get(i));
+            cmbCategoriaFormulario.addItem(
+                    categoriasDisponibles.get(i)
+            );
         }
     }
 
     private JPanel crearPanelFormulario() {
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(new TitledBorder("Recurso"));
+        JPanel panel = new JPanel(
+                new GridBagLayout()
+        );
+
+        panel.setBorder(
+                new TitledBorder("Recurso")
+        );
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -143,43 +202,88 @@ public class PanelRecursos extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(new JLabel("ID:"), gbc);
+
+        panel.add(
+                new JLabel("ID:"),
+                gbc
+        );
 
         txtId = new JTextField(15);
+
         gbc.gridx = 1;
-        panel.add(txtId, gbc);
+
+        panel.add(
+                txtId,
+                gbc
+        );
 
         gbc.gridx = 2;
-        panel.add(new JLabel("Categoria:"), gbc);
+
+        panel.add(
+                new JLabel("Categoria:"),
+                gbc
+        );
 
         cmbCategoriaFormulario = new JComboBox<>();
-        cmbCategoriaFormulario.setRenderer(crearRendererDeCategoria());
+
+        cmbCategoriaFormulario.setRenderer(
+                crearRendererDeCategoria()
+        );
+
         for (int i = 0; i < categoriasDisponibles.size(); i++) {
-            cmbCategoriaFormulario.addItem(categoriasDisponibles.get(i));
+            cmbCategoriaFormulario.addItem(
+                    categoriasDisponibles.get(i)
+            );
         }
+
         gbc.gridx = 3;
-        panel.add(cmbCategoriaFormulario, gbc);
+
+        panel.add(
+                cmbCategoriaFormulario,
+                gbc
+        );
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        panel.add(new JLabel("Descripcion:"), gbc);
+
+        panel.add(
+                new JLabel("Descripcion:"),
+                gbc
+        );
 
         txtDescripcion = new JTextField(20);
+
         gbc.gridx = 1;
         gbc.gridwidth = 3;
-        panel.add(txtDescripcion, gbc);
+
+        panel.add(
+                txtDescripcion,
+                gbc
+        );
+
         gbc.gridwidth = 1;
 
-        JPanel botones = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
+        JPanel botones = new JPanel(
+                new FlowLayout(FlowLayout.LEFT, 8, 5)
+        );
 
         JButton btnGuardar = new JButton("Guardar");
-        btnGuardar.addActionListener(e -> guardar());
+
+        btnGuardar.addActionListener(
+                e -> guardar()
+        );
 
         JButton btnBorrar = new JButton("Borrar");
-        btnBorrar.addActionListener(e -> borrar());
+
+        btnBorrar.addActionListener(
+                e -> borrar()
+        );
 
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.addActionListener(e -> limpiar());
+
+        btnLimpiar.addActionListener(
+                e -> limpiar()
+        );
 
         botones.add(btnGuardar);
         botones.add(btnBorrar);
@@ -188,116 +292,216 @@ public class PanelRecursos extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
-        panel.add(botones, gbc);
+
+        panel.add(
+                botones,
+                gbc
+        );
 
         return panel;
     }
 
     private JScrollPane crearPanelTabla() {
 
-        String[] columnas = {"Id", "Categoria", "Descripcion"};
+        String[] columnas = {
+                "Id",
+                "Categoria",
+                "Descripcion"
+        };
 
-        modeloTabla = new DefaultTableModel(columnas, 0) {
+        modeloTabla = new DefaultTableModel(
+                columnas,
+                0
+        ) {
+
             @Override
-            public boolean isCellEditable(int fila, int columna) {
+            public boolean isCellEditable(
+                    int fila,
+                    int columna) {
+
                 return false;
             }
         };
 
-        tablaRecursos = new JTable(modeloTabla);
+        tablaRecursos = new JTable(
+                modeloTabla
+        );
+
         tablaRecursos.setRowHeight(26);
-        tablaRecursos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        tablaRecursos.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting() && tablaRecursos.getSelectedRow() != -1) {
-                cargarSeleccionEnFormulario();
-            }
-        });
+        tablaRecursos.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
 
-        JScrollPane scroll = new JScrollPane(tablaRecursos);
-        scroll.setBorder(new TitledBorder("Listado"));
+        tablaRecursos
+                .getSelectionModel()
+                .addListSelectionListener(e -> {
+
+                    if (!e.getValueIsAdjusting()
+                            && tablaRecursos.getSelectedRow() != -1) {
+
+                        cargarSeleccionEnFormulario();
+                    }
+                });
+
+        JScrollPane scroll = new JScrollPane(
+                tablaRecursos
+        );
+
+        scroll.setBorder(
+                new TitledBorder("Listado")
+        );
 
         return scroll;
     }
 
     private void buscar() {
 
-        Categoria categoriaSeleccionada = (Categoria) cmbFiltroCategoria.getSelectedItem();
-        String categoriaId = (categoriaSeleccionada == TODAS_LAS_CATEGORIAS)
-                ? null
-                : categoriaSeleccionada.getId();
+        Categoria categoriaSeleccionada =
+                (Categoria) cmbFiltroCategoria.getSelectedItem();
 
-        String descripcion = txtBuscarDescripcion.getText().trim();
+        String categoriaId =
+                (categoriaSeleccionada == TODAS_LAS_CATEGORIAS)
+                        ? null
+                        : categoriaSeleccionada.getId();
 
-        List<Recurso> resultado = controlador.buscar(categoriaId, descripcion);
+        String descripcion =
+                txtBuscarDescripcion.getText().trim();
+
+        List<Recurso> resultado =
+                controlador.buscar(
+                        categoriaId,
+                        descripcion
+                );
+
         actualizarTabla(resultado);
     }
 
     private void guardar() {
 
         String id = txtId.getText().trim();
-        String descripcion = txtDescripcion.getText().trim();
 
-        Categoria categoriaSeleccionada = (Categoria) cmbCategoriaFormulario.getSelectedItem();
+        String descripcion =
+                txtDescripcion.getText().trim();
+
+        Categoria categoriaSeleccionada =
+                (Categoria) cmbCategoriaFormulario.getSelectedItem();
 
         if (categoriaSeleccionada == null) {
+
             JOptionPane.showMessageDialog(
-                    this, "Debe existir al menos una categoria antes de crear un recurso.",
-                    "Sin categorias", JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Debe existir al menos una categoria antes de crear un recurso.",
+                    "Sin categorias",
+                    JOptionPane.WARNING_MESSAGE
             );
+
             return;
         }
 
-        String categoriaId = categoriaSeleccionada.getId();
+        String categoriaId =
+                categoriaSeleccionada.getId();
 
         try {
 
             if (modoEdicion) {
-                controlador.modificar(id, categoriaId, descripcion);
-                JOptionPane.showMessageDialog(this, "Recurso modificado correctamente.");
+
+                controlador.modificar(
+                        idOriginal,
+                        id,
+                        categoriaId,
+                        descripcion
+                );
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Recurso modificado correctamente."
+                );
+
             } else {
-                controlador.agregar(id, categoriaId, descripcion);
-                JOptionPane.showMessageDialog(this, "Recurso agregado correctamente.");
+
+                controlador.agregar(
+                        id,
+                        categoriaId,
+                        descripcion
+                );
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Recurso agregado correctamente."
+                );
             }
 
             limpiar();
-            actualizarTabla(controlador.listarTodos());
+
+            actualizarTabla(
+                    controlador.listarTodos()
+            );
 
         } catch (RecursoException ex) {
+
             JOptionPane.showMessageDialog(
-                    this, ex.getMessage(), "Error de validacion", JOptionPane.WARNING_MESSAGE
+                    this,
+                    ex.getMessage(),
+                    "Error de validacion",
+                    JOptionPane.WARNING_MESSAGE
             );
         }
     }
 
     private void borrar() {
 
-        int filaSeleccionada = tablaRecursos.getSelectedRow();
+        int filaSeleccionada =
+                tablaRecursos.getSelectedRow();
 
         if (filaSeleccionada == -1) {
+
             JOptionPane.showMessageDialog(
-                    this, "Seleccione un recurso de la lista.", "Sin seleccion", JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Seleccione un recurso de la lista.",
+                    "Sin seleccion",
+                    JOptionPane.WARNING_MESSAGE
             );
+
             return;
         }
 
-        String id = (String) modeloTabla.getValueAt(filaSeleccionada, 0);
+        String id =
+                (String) modeloTabla.getValueAt(
+                        filaSeleccionada,
+                        0
+                );
 
-        int confirmacion = JOptionPane.showConfirmDialog(
-                this, "Desea eliminar el recurso " + id + "?", "Confirmar eliminacion", JOptionPane.YES_NO_OPTION
-        );
+        int confirmacion =
+                JOptionPane.showConfirmDialog(
+                        this,
+                        "Desea eliminar el recurso " + id + "?",
+                        "Confirmar eliminacion",
+                        JOptionPane.YES_NO_OPTION
+                );
 
         if (confirmacion != JOptionPane.YES_OPTION) {
             return;
         }
 
         try {
+
             controlador.eliminar(id);
+
             limpiar();
-            actualizarTabla(controlador.listarTodos());
+
+            actualizarTabla(
+                    controlador.listarTodos()
+            );
 
         } catch (RecursoException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
@@ -311,58 +515,97 @@ public class PanelRecursos extends JPanel {
         }
 
         txtId.setEditable(true);
+
         modoEdicion = false;
+        idOriginal = null;
 
         tablaRecursos.clearSelection();
     }
 
     private void cargarSeleccionEnFormulario() {
 
-        int fila = tablaRecursos.getSelectedRow();
+        int fila =
+                tablaRecursos.getSelectedRow();
 
-        Recurso recurso = recursosMostrados.get(fila);
+        Recurso recurso =
+                recursosMostrados.get(fila);
 
-        txtId.setText(recurso.getId());
-        txtDescripcion.setText(recurso.getDescripcion());
+        idOriginal = recurso.getId();
 
-        seleccionarCategoriaPorId(recurso.getCategoria());
+        txtId.setText(
+                recurso.getId()
+        );
 
-        txtId.setEditable(false);
+        txtDescripcion.setText(
+                recurso.getDescripcion()
+        );
+
+        seleccionarCategoriaPorId(
+                recurso.getCategoria()
+        );
+
+        txtId.setEditable(true);
+
         modoEdicion = true;
     }
 
-    private void seleccionarCategoriaPorId(String categoriaId) {
+    private void seleccionarCategoriaPorId(
+            String categoriaId) {
 
-        for (int i = 0; i < cmbCategoriaFormulario.getItemCount(); i++) {
-            Categoria c = cmbCategoriaFormulario.getItemAt(i);
+        for (int i = 0;
+             i < cmbCategoriaFormulario.getItemCount();
+             i++) {
 
-            if (c.getId() != null && c.getId().equals(categoriaId)) {
+            Categoria c =
+                    cmbCategoriaFormulario.getItemAt(i);
+
+            if (c.getId() != null
+                    && c.getId().equals(categoriaId)) {
+
                 cmbCategoriaFormulario.setSelectedIndex(i);
+
                 return;
             }
         }
     }
 
-    private void actualizarTabla(List<Recurso> recursos) {
+    private void actualizarTabla(
+            List<Recurso> recursos) {
 
         recursosMostrados = recursos;
+
         modeloTabla.setRowCount(0);
 
         for (int i = 0; i < recursos.size(); i++) {
-            Recurso r = recursos.get(i);
 
-            modeloTabla.addRow(new Object[]{
-                    r.getId(), obtenerDescripcionCategoria(r.getCategoria()), r.getDescripcion()
-            });
+            Recurso r =
+                    recursos.get(i);
+
+            modeloTabla.addRow(
+                    new Object[]{
+                            r.getId(),
+                            obtenerDescripcionCategoria(
+                                    r.getCategoria()
+                            ),
+                            r.getDescripcion()
+                    }
+            );
         }
     }
 
-    private String obtenerDescripcionCategoria(String categoriaId) {
+    private String obtenerDescripcionCategoria(
+            String categoriaId) {
 
-        for (int i = 0; i < categoriasDisponibles.size(); i++) {
-            Categoria c = categoriasDisponibles.get(i);
+        for (int i = 0;
+             i < categoriasDisponibles.size();
+             i++) {
 
-            if (c.getId() != null && c.getId().equals(categoriaId)) {
+            Categoria c =
+                    categoriasDisponibles.get(i);
+
+            if (c.getId() != null
+                    && c.getId().equals(categoriaId)) {
+
                 return c.getDescripcion();
             }
         }
@@ -372,39 +615,78 @@ public class PanelRecursos extends JPanel {
 
     private void imprimirReporte() {
 
-        JFileChooser selector = new JFileChooser();
-        selector.setSelectedFile(new File("recursos.pdf"));
+        JFileChooser selector =
+                new JFileChooser();
 
-        int opcion = selector.showSaveDialog(this);
+        selector.setSelectedFile(
+                new File("recursos.pdf")
+        );
+
+        int opcion =
+                selector.showSaveDialog(this);
 
         if (opcion != JFileChooser.APPROVE_OPTION) {
             return;
         }
 
-        String ruta = selector.getSelectedFile().getAbsolutePath();
+        String ruta =
+                selector
+                        .getSelectedFile()
+                        .getAbsolutePath();
+
         if (!ruta.toLowerCase().endsWith(".pdf")) {
             ruta = ruta + ".pdf";
         }
 
-        List<String[]> filas = new ArrayList<>();
+        List<String[]> filas =
+                new ArrayList<>();
 
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            filas.add(new String[]{
-                    String.valueOf(modeloTabla.getValueAt(i, 0)),
-                    String.valueOf(modeloTabla.getValueAt(i, 1)),
-                    String.valueOf(modeloTabla.getValueAt(i, 2))
-            });
+        for (int i = 0;
+             i < modeloTabla.getRowCount();
+             i++) {
+
+            filas.add(
+                    new String[]{
+                            String.valueOf(
+                                    modeloTabla.getValueAt(i, 0)
+                            ),
+                            String.valueOf(
+                                    modeloTabla.getValueAt(i, 1)
+                            ),
+                            String.valueOf(
+                                    modeloTabla.getValueAt(i, 2)
+                            )
+                    }
+            );
         }
 
         try {
-            GeneradorReportePDF.generar(
-                    ruta, "Listado de Recursos", new String[]{"Id", "Categoria", "Descripcion"}, filas
-            );
-            JOptionPane.showMessageDialog(this, "Reporte generado en:\n" + ruta);
 
-        } catch (IOException | com.lowagie.text.DocumentException ex) {
+            GeneradorReportePDF.generar(
+                    ruta,
+                    "Listado de Recursos",
+                    new String[]{
+                            "Id",
+                            "Categoria",
+                            "Descripcion"
+                    },
+                    filas
+            );
+
             JOptionPane.showMessageDialog(
-                    this, "No se pudo generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
+                    this,
+                    "Reporte generado en:\n" + ruta
+            );
+
+        } catch (IOException
+                 | com.lowagie.text.DocumentException ex) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No se pudo generar el reporte: "
+                            + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }

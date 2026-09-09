@@ -8,6 +8,7 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaDAO {
@@ -20,9 +21,14 @@ public class CategoriaDAO {
             envoltorio.setListado(categorias);
 
             JAXBContext contexto = JAXBContext.newInstance(Categorias.class);
-            Marshaller marshaller = (Marshaller) contexto.createMarshaller();
+            Marshaller marshaller = contexto.createMarshaller();
+
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(envoltorio, new File(ARCHIVO));
+
+            marshaller.marshal(
+                    envoltorio,
+                    new File(ARCHIVO)
+            );
 
         } catch (JAXBException e) {
             throw new RuntimeException("Error al guardar categorias", e);
@@ -30,14 +36,23 @@ public class CategoriaDAO {
     }
 
     public List<Categoria> buscarTodas() {
+
         File archivo = new File(ARCHIVO);
+
         if (!archivo.exists()) {
-            return new java.util.ArrayList<>();
+            return new ArrayList<>();
         }
+
         try {
             JAXBContext contexto = JAXBContext.newInstance(Categorias.class);
             Unmarshaller unmarshaller = contexto.createUnmarshaller();
+
             Categorias envoltorio = (Categorias) unmarshaller.unmarshal(archivo);
+
+            if (envoltorio.getListado() == null) {
+                return new ArrayList<>();
+            }
+
             return envoltorio.getListado();
 
         } catch (JAXBException e) {

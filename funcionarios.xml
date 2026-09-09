@@ -7,4 +7,18 @@
         <nombre>Lamine Yamal</nombre>
         <telefono>62758761</telefono>
     </funcionario>
+    <funcionario>
+        <clave>F02</clave>
+        <id>F02</id>
+        <rol>FUNCIONARIO</rol>
+        <nombre>Marco Antonio Solis</nombre>
+        <telefono>78098643</telefono>
+    </funcionario>
+    <funcionario>
+        <clave>F03</clave>
+        <id>F03</id>
+        <rol>FUNCIONARIO</rol>
+        <nombre>Federico Mora Mora</nombre>
+        <telefono>65768587</telefono>
+    </funcionario>
 </funcionarios>

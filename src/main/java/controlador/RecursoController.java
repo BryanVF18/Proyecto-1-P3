@@ -26,21 +26,37 @@ public class RecursoController {
         }
 
         if (descripcion != null && !descripcion.trim().isEmpty()) {
-            resultado.retainAll(recursoService.buscarPorDescripcion(descripcion.trim()));
+            resultado.retainAll(
+                    recursoService.buscarPorDescripcion(
+                            descripcion.trim()
+                    )
+            );
         }
 
         return resultado;
     }
 
     public Recurso agregar(String id, String categoria, String descripcion) throws RecursoException {
-        return recursoService.agregar(id, categoria, descripcion);
+
+        return recursoService.agregar(
+                id,
+                categoria,
+                descripcion
+        );
     }
 
-    public void modificar(String id, String categoria, String descripcion) throws RecursoException {
-        recursoService.modificar(id, categoria, descripcion);
+    public void modificar(String idActual, String nuevoId, String categoria, String descripcion) throws RecursoException {
+
+        recursoService.modificar(
+                idActual,
+                nuevoId,
+                categoria,
+                descripcion
+        );
     }
 
     public void eliminar(String id) throws RecursoException {
+
         recursoService.eliminar(id);
     }
 }

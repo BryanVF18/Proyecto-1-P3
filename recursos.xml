@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recursos>
+    <recurso>
+        <id>SALA-001</id>
+        <categoria>CAT-000003</categoria>
+        <descripcion>Sala de reuniones #1. Capacidad: 5 personas</descripcion>
+    </recurso>
+    <recurso>
+        <id>SALA-002</id>
+        <categoria>CAT-000003</categoria>
+        <descripcion>Sala dee reuniones #2. Capacidad: 10 personas</descripcion>
+    </recurso>
+    <recurso>
+        <id>SALA-003</id>
+        <categoria>CAT-000003</categoria>
+        <descripcion>Sala dee reuniones #3 Ejecutiva. Capacidad: 25 personas</descripcion>
+    </recurso>
+    <recurso>
+        <id>AUDIO-001</id>
+        <categoria>CAT-000001</categoria>
+        <descripcion>Sala de presentaciones de proyectos e ideas sobre innovacion de la empresa. Pantalla y pizarra digital</descripcion>
+    </recurso>
+    <recurso>
+        <id>AUDIO-002</id>
+        <categoria>CAT-000001</categoria>
+        <descripcion>Sala de presentaciones de proyectos e ideas sobre innovacion de la empresa.Solo Pantalla</descripcion>
+    </recurso>
+    <recurso>
+        <id>TECH-001</id>
+        <categoria>CAT-000002</categoria>
+        <descripcion>Computadora RedDragon Workstation, alto rendiminiento para programador</descripcion>
+    </recurso>
+    <recurso>
+        <id>TECH-002</id>
+        <categoria>CAT-000002</categoria>
+        <descripcion>Computadora Victus Workstation, alto rendiminiento para programador</descripcion>
+    </recurso>
+    <recurso>
+        <id>TECH-003</id>
+        <categoria>CAT-000002</categoria>
+        <descripcion>Monitor MSI 30pulgadas, entrada HDMI y coneccion por medio de Bluetooh</descripcion>
+    </recurso>
+</recursos>

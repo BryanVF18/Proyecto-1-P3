@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reservas>
+    <reserva>
+        <id>RES-000001</id>
+        <actividad>Reunion Proyecto Avancemos</actividad>
+        <funcionario>
+            <clave>F02</clave>
+            <id>F02</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Marco Antonio Solis</nombre>
+            <telefono>78098643</telefono>
+        </funcionario>
+        <fecha>2026-09-09</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>13:00</horaFin>
+        <recurso>
+            <id>SALA-001</id>
+            <categoria>CAT-000003</categoria>
+            <descripcion>Sala de reuniones #1. Capacidad: 5 personas</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000002</id>
+        <actividad>Uso temporal de computadora por danos</actividad>
+        <funcionario>
+            <clave>F02</clave>
+            <id>F02</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Marco Antonio Solis</nombre>
+            <telefono>78098643</telefono>
+        </funcionario>
+        <fecha>2026-09-10</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>22:00</horaFin>
+        <recurso>
+            <id>TECH-001</id>
+            <categoria>CAT-000002</categoria>
+            <descripcion>Computadora RedDragon Workstation, alto rendiminiento para programador</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000003</id>
+        <actividad>Uso Temporal de computadora por problemas de calentamiento en la personal</actividad>
+        <funcionario>
+            <clave>F03</clave>
+            <id>F03</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Federico Mora Mora</nombre>
+            <telefono>65768587</telefono>
+        </funcionario>
+        <fecha>2026-09-10</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>22:00</horaFin>
+        <recurso>
+            <id>TECH-002</id>
+            <categoria>CAT-000002</categoria>
+            <descripcion>Computadora Victus Workstation, alto rendiminiento para programador</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000004</id>
+        <actividad>Reuinion ejecutiva presentacion Innovacion Mercadeo Digital</actividad>
+        <funcionario>
+            <clave>F03</clave>
+            <id>F03</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Federico Mora Mora</nombre>
+            <telefono>65768587</telefono>
+        </funcionario>
+        <fecha>2026-09-09</fecha>
+        <horaInicio>15:00</horaInicio>
+        <horaFin>17:00</horaFin>
+        <recurso>
+            <id>AUDIO-001</id>
+            <categoria>CAT-000001</categoria>
+            <descripcion>Sala de presentaciones de proyectos e ideas sobre innovacion de la empresa. Pantalla y pizarra digital</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000005</id>
+        <actividad>Reunion Actualizacion de junta directiva</actividad>
+        <funcionario>
+            <clave>F03</clave>
+            <id>F03</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Federico Mora Mora</nombre>
+            <telefono>65768587</telefono>
+        </funcionario>
+        <fecha>2026-09-09</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>12:00</horaFin>
+        <recurso>
+            <id>SALA-002</id>
+            <categoria>CAT-000003</categoria>
+            <descripcion>Sala dee reuniones #2. Capacidad: 10 personas</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+</reservas>
