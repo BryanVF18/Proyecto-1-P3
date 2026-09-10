@@ -100,4 +100,24 @@
         </recurso>
         <estado>ACTIVA</estado>
     </reserva>
+    <reserva>
+        <id>RES-000006</id>
+        <actividad>Reunion</actividad>
+        <funcionario>
+            <clave>f01</clave>
+            <id>f01</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Lamine Yamal</nombre>
+            <telefono>62758761</telefono>
+        </funcionario>
+        <fecha>2026-09-10</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>09:00</horaFin>
+        <recurso>
+            <id>AUDIO-001</id>
+            <categoria>CAT-000001</categoria>
+            <descripcion>Sala de presentaciones de proyectos e ideas sobre innovacion de la empresa. Pantalla y pizarra digital</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
 </reservas>

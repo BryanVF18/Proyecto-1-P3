@@ -100,6 +100,11 @@ public class VistaPrincipal extends JFrame {
                 "Calendarizacion",
                 new PanelCalendarizacion()
         );
+
+        pestanas.addTab(
+                "Actividades",
+                new PanelActividades()
+        );
     }
 
     private void cargarPestanasFuncionario() {
@@ -113,6 +118,11 @@ public class VistaPrincipal extends JFrame {
         pestanas.addTab(
                 "Calendarizacion",
                 new PanelCalendarizacion()
+        );
+
+        pestanas.addTab(
+                "Actividades",
+                new PanelActividades()
         );
     }
 
