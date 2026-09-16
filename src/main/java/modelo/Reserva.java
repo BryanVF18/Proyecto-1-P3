@@ -143,6 +143,10 @@ public class Reserva {
     }
 
     public boolean esFutura() {
+        if (fecha == null || horaInicio == null) {
+            return false;
+        }
+
         LocalDate hoy = LocalDate.now();
         LocalTime ahora = LocalTime.now();
 
@@ -157,7 +161,17 @@ public class Reserva {
         return false;
     }
 
+    public boolean esFutura(LocalDate fechaActual) {
+        return fecha != null
+                && fechaActual != null
+                && fecha.isAfter(fechaActual);
+    }
+
     public boolean esPasada() {
+        if (fecha == null || horaFin == null) {
+            return false;
+        }
+
         LocalDate hoy = LocalDate.now();
 
         if (fecha.isBefore(hoy)) {

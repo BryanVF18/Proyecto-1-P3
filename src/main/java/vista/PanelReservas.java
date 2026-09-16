@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import controlador.CategoriaController;
 import controlador.ReservaController;
+import logica.GeminiException;
 import logica.ReservaException;
 import modelo.Categoria;
+import modelo.DatosReservaIA;
 import modelo.Funcionario;
 import modelo.Recurso;
 import modelo.Reserva;
@@ -26,6 +28,7 @@ import java.util.List;
 public class PanelReservas extends JPanel {
 
     private JTextField txtActividad;
+    private JTextField txtSolicitudIA;
     private JSpinner spnFecha;
     private JComboBox<String> cmbHoraInicio;
     private JComboBox<String> cmbHoraFin;
@@ -126,6 +129,24 @@ public class PanelReservas extends JPanel {
         gbc.gridx = 3;
         panel.add(cmbHoraFin, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(new JLabel("Solicitud IA:"), gbc);
+
+        txtSolicitudIA = new JTextField(35);
+
+        gbc.gridx = 1;
+        gbc.gridwidth = 2;
+        panel.add(txtSolicitudIA, gbc);
+
+        gbc.gridwidth = 1;
+
+        JButton btnCompletarGemini = new JButton("Completar con IA");
+        btnCompletarGemini.addActionListener(e -> completarFormularioConGemini());
+
+        gbc.gridx = 3;
+        panel.add(btnCompletarGemini, gbc);
+
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 
@@ -155,7 +176,7 @@ public class PanelReservas extends JPanel {
         panelBotones.add(btnReporte);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 4;
         panel.add(panelBotones, gbc);
 
@@ -317,6 +338,7 @@ public class PanelReservas extends JPanel {
 
     private void limpiar() {
         txtActividad.setText("");
+        txtSolicitudIA.setText("");
         spnFecha.setValue(new Date());
         cmbHoraInicio.setSelectedItem("08:00");
         cmbHoraFin.setSelectedItem("09:00");
@@ -528,5 +550,109 @@ public class PanelReservas extends JPanel {
                 this,
                 "Gemini fue configurado para esta ejecución."
         );
+    }
+
+    private void completarFormularioConGemini() {
+        if (claveGemini == null || claveGemini.trim().isEmpty()) {
+            configurarGemini();
+
+            if (claveGemini == null || claveGemini.trim().isEmpty()) {
+                return;
+            }
+        }
+
+        String solicitud = txtSolicitudIA.getText().trim();
+
+        if (solicitud.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Escriba una solicitud antes de usar Gemini.",
+                    "Gemini",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        SwingWorker<DatosReservaIA, Void> tareaGemini =
+                new SwingWorker<DatosReservaIA, Void>() {
+
+                    @Override
+                    protected DatosReservaIA doInBackground()
+                            throws GeminiException {
+                        return reservaController.interpretarSolicitudConGemini(
+                                solicitud,
+                                categoriasDisponibles,
+                                claveGemini
+                        );
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            DatosReservaIA datos = get();
+                            cargarDatosGenerados(datos);
+
+                            JOptionPane.showMessageDialog(
+                                    PanelReservas.this,
+                                    "Gemini completó los datos. Revise la reserva antes de guardarla."
+                            );
+
+                        } catch (Exception e) {
+                            Throwable causa = e.getCause();
+                            String mensaje;
+
+                            if (causa instanceof GeminiException) {
+                                mensaje = causa.getMessage();
+                            } else {
+                                mensaje = "No fue posible completar los datos con Gemini.";
+                            }
+
+                            JOptionPane.showMessageDialog(
+                                    PanelReservas.this,
+                                    mensaje,
+                                    "Gemini",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                        }
+                    }
+                };
+
+        tareaGemini.execute();
+    }
+
+    private void cargarDatosGenerados(DatosReservaIA datos) {
+        txtActividad.setText(datos.getActividad());
+
+        Date fecha = Date.from(
+                datos.getFecha()
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()
+        );
+
+        spnFecha.setValue(fecha);
+        cmbHoraInicio.setSelectedItem(datos.getHoraInicio().toString());
+        cmbHoraFin.setSelectedItem(datos.getHoraFin().toString());
+        seleccionarCategoriasGeneradas(datos.getIdsCategorias());
+    }
+
+    private void seleccionarCategoriasGeneradas(List<String> idsCategorias) {
+        List<Integer> indices = new ArrayList<>();
+
+        for (int i = 0; i < categoriasDisponibles.size(); i++) {
+            Categoria categoria = categoriasDisponibles.get(i);
+
+            if (idsCategorias.contains(categoria.getId())) {
+                indices.add(i);
+            }
+        }
+
+        int[] indicesSeleccionados = new int[indices.size()];
+
+        for (int i = 0; i < indices.size(); i++) {
+            indicesSeleccionados[i] = indices.get(i);
+        }
+
+        listaCategorias.setSelectedIndices(indicesSeleccionados);
     }
 }
