@@ -81,49 +81,29 @@ public class VistaPrincipal extends JFrame {
     }
 
     private void cargarPestanasAdministrador() {
-        pestanas.addTab(
-                "Funcionarios",
-                new PanelFuncionarios()
-        );
+        pestanas.addTab("Funcionarios", new PanelFuncionarios());
 
-        pestanas.addTab(
-                "Categorias",
-                new PanelCategorias()
-        );
+        pestanas.addTab("Categorias", new PanelCategorias());
 
-        pestanas.addTab(
-                "Recursos",
-                new PanelRecursos()
-        );
+        pestanas.addTab("Recursos", new PanelRecursos());
 
-        pestanas.addTab(
-                "Calendarizacion",
-                new PanelCalendarizacion()
-        );
+        pestanas.addTab("Calendarizacion", new PanelCalendarizacion());
 
-        pestanas.addTab(
-                "Actividades",
-                new PanelActividades()
-        );
+        pestanas.addTab("Actividades", new PanelActividades());
+
+        pestanas.addTab("Estadisticas", new PanelEstadisticas());
     }
 
     private void cargarPestanasFuncionario() {
         Funcionario funcionario = (Funcionario) usuarioActual;
 
-        pestanas.addTab(
-                "Reservas",
-                new PanelReservas(funcionario)
-        );
+        pestanas.addTab("Reservas", new PanelReservas(funcionario));
 
-        pestanas.addTab(
-                "Calendarizacion",
-                new PanelCalendarizacion()
-        );
+        pestanas.addTab("Calendarizacion", new PanelCalendarizacion());
 
-        pestanas.addTab(
-                "Actividades",
-                new PanelActividades()
-        );
+        pestanas.addTab("Actividades", new PanelActividades());
+
+        pestanas.addTab("Estadisticas", new PanelEstadisticas());
     }
 
     private void abrirCambioClave() {

@@ -129,7 +129,7 @@ public class PanelActividades extends JPanel {
 
         tablaActividades = new JTable(modeloTabla);
 
-        tablaActividades.setRowHeight(45);
+        tablaActividades.setRowHeight(50);
         tablaActividades.setBackground(Color.WHITE);
         tablaActividades.setGridColor(new Color(210, 210, 210));
         tablaActividades.setShowGrid(true);
@@ -208,15 +208,15 @@ public class PanelActividades extends JPanel {
             for (int dia = 0; dia < 7; dia++) {
                 LocalDate fechaActual = lunes.plusDays(dia);
 
-                Reserva reserva = actividadController.buscarActividad(
+                List<Reserva> reservas = actividadController.buscarActividades(
                         fechaActual,
                         horaActual
                 );
 
-                if (reserva == null) {
+                if (reservas.isEmpty()) {
                     fila[dia + 1] = "";
                 } else {
-                    fila[dia + 1] = obtenerTextoActividad(reserva);
+                    fila[dia + 1] = obtenerTextoActividades(reservas);
                 }
             }
 
@@ -226,14 +226,26 @@ public class PanelActividades extends JPanel {
         ajustarColumnas();
     }
 
-    private String obtenerTextoActividad(Reserva reserva) {
-        String funcionario = "";
+    private String obtenerTextoActividades(List<Reserva> reservas) {
+        String texto = "";
 
-        if (reserva.getFuncionario() != null) {
-            funcionario = reserva.getFuncionario().getNombre();
+        for (int i = 0; i < reservas.size(); i++) {
+            Reserva reserva = reservas.get(i);
+
+            String funcionario = "";
+
+            if (reserva.getFuncionario() != null) {
+                funcionario = reserva.getFuncionario().getNombre();
+            }
+
+            texto += reserva.getActividad() + " - " + funcionario;
+
+            if (i < reservas.size() - 1) {
+                texto += " | ";
+            }
         }
 
-        return reserva.getActividad() + " - " + funcionario;
+        return texto;
     }
 
     private LocalDate obtenerFechaSeleccionada() {

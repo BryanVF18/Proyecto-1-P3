@@ -5,6 +5,7 @@ import persistencia.ReservaDAO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActividadService {
@@ -15,26 +16,22 @@ public class ActividadService {
         reservaDAO = new ReservaDAO();
     }
 
-    public Reserva buscarActividad(LocalDate fecha, LocalTime hora) {
+    public List<Reserva> buscarActividades(LocalDate fecha, LocalTime hora) {
         List<Reserva> reservas = reservaDAO.buscarTodas();
+        List<Reserva> actividadesEncontradas = new ArrayList<>();
 
         for (int i = 0; i < reservas.size(); i++) {
             Reserva reserva = reservas.get(i);
 
-            if (!reserva.estaActiva()) {
-                continue;
-            }
+            if (reserva.estaActiva()
+                    && fecha.equals(reserva.getFecha())
+                    && horaEstaDentroDeReserva(hora, reserva)) {
 
-            if (!fecha.equals(reserva.getFecha())) {
-                continue;
-            }
-
-            if (horaEstaDentroDeReserva(hora, reserva)) {
-                return reserva;
+                actividadesEncontradas.add(reserva);
             }
         }
 
-        return null;
+        return actividadesEncontradas;
     }
 
     private boolean horaEstaDentroDeReserva(LocalTime hora, Reserva reserva) {

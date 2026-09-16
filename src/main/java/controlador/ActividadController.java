@@ -5,6 +5,7 @@ import modelo.Reserva;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class ActividadController {
 
@@ -14,7 +15,7 @@ public class ActividadController {
         actividadService = new ActividadService();
     }
 
-    public Reserva buscarActividad(LocalDate fecha, LocalTime hora) {
-        return actividadService.buscarActividad(fecha, hora);
+    public List<Reserva> buscarActividades(LocalDate fecha, LocalTime hora) {
+        return actividadService.buscarActividades(fecha, hora);
     }
 }

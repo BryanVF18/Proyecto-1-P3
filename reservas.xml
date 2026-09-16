@@ -120,4 +120,64 @@
         </recurso>
         <estado>ACTIVA</estado>
     </reserva>
+    <reserva>
+        <id>RES-000007</id>
+        <actividad>Coversatorio</actividad>
+        <funcionario>
+            <clave>f01</clave>
+            <id>f01</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Lamine Yamal</nombre>
+            <telefono>62758761</telefono>
+        </funcionario>
+        <fecha>2026-09-16</fecha>
+        <horaInicio>13:00</horaInicio>
+        <horaFin>17:00</horaFin>
+        <recurso>
+            <id>SALA-001</id>
+            <categoria>CAT-000003</categoria>
+            <descripcion>Sala de reuniones #1. Capacidad: 5 personas</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000008</id>
+        <actividad>Capacitacion</actividad>
+        <funcionario>
+            <clave>f01</clave>
+            <id>f01</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Lamine Yamal</nombre>
+            <telefono>62758761</telefono>
+        </funcionario>
+        <fecha>2026-09-16</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>18:00</horaFin>
+        <recurso>
+            <id>TECH-001</id>
+            <categoria>CAT-000002</categoria>
+            <descripcion>Computadora RedDragon Workstation, alto rendiminiento para programador</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
+    <reserva>
+        <id>RES-000009</id>
+        <actividad>Reunion</actividad>
+        <funcionario>
+            <clave>f01</clave>
+            <id>f01</id>
+            <rol>FUNCIONARIO</rol>
+            <nombre>Lamine Yamal</nombre>
+            <telefono>62758761</telefono>
+        </funcionario>
+        <fecha>2026-09-17</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>09:00</horaFin>
+        <recurso>
+            <id>SALA-001</id>
+            <categoria>CAT-000003</categoria>
+            <descripcion>Sala de reuniones #1. Capacidad: 5 personas</descripcion>
+        </recurso>
+        <estado>ACTIVA</estado>
+    </reserva>
 </reservas>
