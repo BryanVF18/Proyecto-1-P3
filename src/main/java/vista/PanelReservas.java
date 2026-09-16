@@ -37,7 +37,7 @@ public class PanelReservas extends JPanel {
     private final ReservaController reservaController;
     private final CategoriaController categoriaController;
     private final Funcionario funcionarioActual;
-
+    private String claveGemini;
     private List<Categoria> categoriasDisponibles;
 
     public PanelReservas(Funcionario funcionarioActual) {
@@ -136,7 +136,9 @@ public class PanelReservas extends JPanel {
         JButton btnCancelarReserva = new JButton("Cancelar reserva");
         JButton btnHistorial = new JButton("Ver historial");
         JButton btnReporte = new JButton("Generar PDF");
+        JButton btnConfigurarGemini = new JButton("Configurar Gemini");
 
+        btnConfigurarGemini.addActionListener(e -> configurarGemini());
         btnReservar.addActionListener(e -> reservar());
         btnLimpiar.addActionListener(e -> limpiar());
         btnActualizar.addActionListener(e -> actualizarTabla());
@@ -144,6 +146,7 @@ public class PanelReservas extends JPanel {
         btnHistorial.addActionListener(e -> mostrarHistorial());
         btnReporte.addActionListener(e -> imprimirReporte());
 
+        panelBotones.add(btnConfigurarGemini);
         panelBotones.add(btnReservar);
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnActualizar);
@@ -487,5 +490,43 @@ public class PanelReservas extends JPanel {
                     e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+
+
+
+    private void configurarGemini() {
+        JPasswordField campoClave = new JPasswordField(30);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                campoClave,
+                "Configurar Gemini",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (opcion != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        String clave = new String(campoClave.getPassword()).trim();
+
+        if (clave.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Debe indicar una clave de Gemini.",
+                    "Gemini",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        claveGemini = clave;
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Gemini fue configurado para esta ejecución."
+        );
     }
 }

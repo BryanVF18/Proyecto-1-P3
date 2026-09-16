@@ -119,9 +119,7 @@ public class ReservaTest {
 
         assertTrue(
                 reserva.esFutura(
-                        LocalDate.of(2026, 9, 14)
-                )
-        );
+                        LocalDate.of(2026, 9, 14)));
     }
 
     @Test
