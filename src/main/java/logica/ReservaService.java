@@ -39,6 +39,38 @@ public class ReservaService {
         return resultado;
     }
 
+    public List<Reserva> listarActualesPorFuncionario(String idFuncionario) {
+        List<Reserva> resultado = new ArrayList<>();
+        List<Reserva> reservas = reservaDAO.buscarTodas();
+
+        for (int i = 0; i < reservas.size(); i++) {
+            Reserva reserva = reservas.get(i);
+
+            if (reserva.perteneceAlFuncionario(idFuncionario)
+                    && reserva.estaActiva()
+                    && !reserva.esPasada()) {
+
+                resultado.add(reserva);
+            }
+        }
+
+        return resultado;
+    }
+
+    public List<Reserva> listarHistorialPorFuncionario(String idFuncionario) {
+        List<Reserva> resultado = new ArrayList<>();
+        List<Reserva> reservas = reservaDAO.buscarTodas();
+
+        for (int i = 0; i < reservas.size(); i++) {
+            Reserva reserva = reservas.get(i);
+
+            if (reserva.perteneceAlFuncionario(idFuncionario) && (reserva.esPasada() || !reserva.estaActiva())) {
+                resultado.add(reserva);
+            }
+        }
+        return resultado;
+    }
+
     public Reserva crearReserva(
             SolicitudReserva solicitud,
             Funcionario funcionario
@@ -268,7 +300,7 @@ public class ReservaService {
             throw new ReservaException("No puede cancelar una reserva de otro funcionario");
         }
 
-        if (!reservaEncontrada.esFutura(LocalDate.now())) {
+        if (!reservaEncontrada.esFutura()) {
             throw new ReservaException("Solo se pueden cancelar reservas futuras");
         }
 

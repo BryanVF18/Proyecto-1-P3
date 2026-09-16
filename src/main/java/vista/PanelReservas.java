@@ -128,22 +128,27 @@ public class PanelReservas extends JPanel {
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
+
+        //BOTONES
         JButton btnReservar = new JButton("Reservar");
         JButton btnLimpiar = new JButton("Limpiar");
         JButton btnActualizar = new JButton("Actualizar lista");
         JButton btnCancelarReserva = new JButton("Cancelar reserva");
+        JButton btnHistorial = new JButton("Ver historial");
         JButton btnReporte = new JButton("Generar PDF");
 
         btnReservar.addActionListener(e -> reservar());
         btnLimpiar.addActionListener(e -> limpiar());
         btnActualizar.addActionListener(e -> actualizarTabla());
         btnCancelarReserva.addActionListener(e -> cancelarReserva());
+        btnHistorial.addActionListener(e -> mostrarHistorial());
         btnReporte.addActionListener(e -> imprimirReporte());
 
         panelBotones.add(btnReservar);
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnActualizar);
         panelBotones.add(btnCancelarReserva);
+        panelBotones.add(btnHistorial);
         panelBotones.add(btnReporte);
 
         gbc.gridx = 0;
@@ -257,7 +262,7 @@ public class PanelReservas extends JPanel {
             return;
         }
 
-        List<Reserva> reservas = reservaController.listarPorFuncionario(
+        List<Reserva> reservas = reservaController.listarActualesPorFuncionario(
                 funcionarioActual.getId()
         );
 
@@ -366,6 +371,76 @@ public class PanelReservas extends JPanel {
             );
         }
     }
+    private void mostrarHistorial() {
+        if (funcionarioActual == null || funcionarioActual.getId() == null) {
+            return;
+        }
+
+        List<Reserva> historial =
+                reservaController.listarHistorialPorFuncionario(
+                        funcionarioActual.getId()
+                );
+
+        String[] columnas = {
+                "Id",
+                "Actividad",
+                "Fecha",
+                "Horario",
+                "Recursos",
+                "Estado"
+        };
+
+        DefaultTableModel modeloHistorial =
+                new DefaultTableModel(columnas, 0) {
+
+                    @Override
+                    public boolean isCellEditable(int fila, int columna) {
+                        return false;
+                    }
+                };
+
+        for (int i = 0; i < historial.size(); i++) {
+            Reserva reserva = historial.get(i);
+
+            String estadoMostrar;
+
+            if (!reserva.estaActiva()) {
+                estadoMostrar = "CANCELADA";
+            } else {
+                estadoMostrar = "FINALIZADA";
+            }
+
+            modeloHistorial.addRow(new Object[]{
+                    reserva.getId(),
+                    reserva.getActividad(),
+                    reserva.getFecha(),
+                    reserva.getHoraInicio() + " - " + reserva.getHoraFin(),
+                    obtenerTextoRecursos(reserva),
+                    estadoMostrar
+            });
+        }
+
+        JTable tablaHistorial = new JTable(modeloHistorial);
+
+        tablaHistorial.setRowHeight(25);
+        tablaHistorial.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
+
+        JScrollPane scroll = new JScrollPane(tablaHistorial);
+
+        scroll.setPreferredSize(
+                new Dimension(850, 350)
+        );
+
+        JOptionPane.showMessageDialog(
+                this,
+                scroll,
+                "Historial de reservas",
+                JOptionPane.PLAIN_MESSAGE
+        );
+    }
+
     private void imprimirReporte() {
 
         JFileChooser selector = new JFileChooser();

@@ -20,6 +20,14 @@ public class ReservaController {
         return reservaService.listarPorFuncionario(idFuncionario);
     }
 
+    public List<Reserva> listarActualesPorFuncionario(String idFuncionario) {
+        return reservaService.listarActualesPorFuncionario(idFuncionario);
+    }
+
+    public List<Reserva> listarHistorialPorFuncionario(String idFuncionario) {
+        return reservaService.listarHistorialPorFuncionario(idFuncionario);
+    }
+
     public Reserva crearReserva(
             SolicitudReserva solicitud,
             Funcionario funcionario

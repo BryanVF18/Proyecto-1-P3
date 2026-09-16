@@ -142,10 +142,34 @@ public class Reserva {
                 && idFuncionario.equals(funcionario.getId());
     }
 
-    public boolean esFutura(LocalDate fechaActual) {
-        return fecha != null
-                && fechaActual != null
-                && fecha.isAfter(fechaActual);
+    public boolean esFutura() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+
+        if (fecha.isAfter(hoy)) {
+            return true;
+        }
+
+        if (fecha.isEqual(hoy) && horaInicio.isAfter(ahora)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean esPasada() {
+        LocalDate hoy = LocalDate.now();
+
+        if (fecha.isBefore(hoy)) {
+            return true;
+        }
+
+        if (fecha.isEqual(hoy)) {
+            return horaFin.isBefore(LocalTime.now())
+                    || horaFin.equals(LocalTime.now());
+        }
+
+        return false;
     }
 
 }

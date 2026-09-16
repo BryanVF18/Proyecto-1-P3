@@ -178,6 +178,6 @@
             <categoria>CAT-000003</categoria>
             <descripcion>Sala de reuniones #1. Capacidad: 5 personas</descripcion>
         </recurso>
-        <estado>ACTIVA</estado>
+        <estado>CANCELADA</estado>
     </reserva>
 </reservas>
