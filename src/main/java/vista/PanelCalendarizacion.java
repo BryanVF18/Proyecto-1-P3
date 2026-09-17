@@ -193,7 +193,7 @@ public class PanelCalendarizacion extends JPanel {
         String funcionario = "";
 
         if (reserva.getFuncionario() != null) {
-            funcionario = reserva.getFuncionario().getId();
+            funcionario = reserva.getFuncionario().getNombre();
         }
 
         return reserva.getActividad() + " - " + funcionario;

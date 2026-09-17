@@ -17,8 +17,10 @@ import java.util.List;
 
 public class PanelEstadisticas extends JPanel {
 
-    private JSpinner spnFechaInicio;
-    private JSpinner spnFechaFin;
+    private JSpinner spnFechaInicioRecursos;
+    private JSpinner spnFechaFinRecursos;
+    private JSpinner spnFechaInicioActividades;
+    private JSpinner spnFechaFinActividades;
 
     private JTable tablaRecursos;
     private JTable tablaActividades;
@@ -62,13 +64,30 @@ public class PanelEstadisticas extends JPanel {
         panel.add(lblTitulo);
         panel.add(Box.createVerticalStrut(5));
         panel.add(lblDescripcion);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(crearPanelFechas());
 
         return panel;
     }
 
-    private JPanel crearPanelFechas() {
+    private JSpinner crearSelectorFecha() {
+        JSpinner selector = new JSpinner(
+                new SpinnerDateModel()
+        );
+
+        selector.setEditor(
+                new JSpinner.DateEditor(
+                        selector,
+                        "dd/MM/yyyy"
+                )
+        );
+
+        selector.setPreferredSize(
+                new Dimension(120, 30)
+        );
+
+        return selector;
+    }
+
+    private JPanel crearPanelFechasRecursos() {
         JPanel panel = new JPanel(
                 new FlowLayout(FlowLayout.LEFT, 10, 10)
         );
@@ -76,7 +95,7 @@ public class PanelEstadisticas extends JPanel {
         panel.setBackground(Color.WHITE);
 
         TitledBorder borde = new TitledBorder(
-                "Rango de fechas"
+                "Periodo para recursos reservados"
         );
 
         borde.setTitleColor(new Color(30, 70, 120));
@@ -84,43 +103,17 @@ public class PanelEstadisticas extends JPanel {
 
         panel.add(new JLabel("Desde:"));
 
-        spnFechaInicio = new JSpinner(
-                new SpinnerDateModel()
-        );
+        spnFechaInicioRecursos = crearSelectorFecha();
 
-        spnFechaInicio.setEditor(
-                new JSpinner.DateEditor(
-                        spnFechaInicio,
-                        "dd/MM/yyyy"
-                )
-        );
-
-        spnFechaInicio.setPreferredSize(
-                new Dimension(130, 30)
-        );
-
-        panel.add(spnFechaInicio);
+        panel.add(spnFechaInicioRecursos);
 
         panel.add(new JLabel("Hasta:"));
 
-        spnFechaFin = new JSpinner(
-                new SpinnerDateModel()
-        );
+        spnFechaFinRecursos = crearSelectorFecha();
 
-        spnFechaFin.setEditor(
-                new JSpinner.DateEditor(
-                        spnFechaFin,
-                        "dd/MM/yyyy"
-                )
-        );
+        panel.add(spnFechaFinRecursos);
 
-        spnFechaFin.setPreferredSize(
-                new Dimension(130, 30)
-        );
-
-        panel.add(spnFechaFin);
-
-        JButton btnConsultar = new JButton("Consultar");
+        JButton btnConsultar = new JButton("Cargar recursos");
         btnConsultar.setFocusPainted(false);
         btnConsultar.setBackground(
                 new Color(70, 130, 180)
@@ -128,7 +121,47 @@ public class PanelEstadisticas extends JPanel {
         btnConsultar.setForeground(Color.WHITE);
 
         btnConsultar.addActionListener(
-                e -> consultarEstadisticas()
+                e -> consultarRecursos()
+        );
+
+        panel.add(btnConsultar);
+
+        return panel;
+    }
+
+    private JPanel crearPanelFechasActividades() {
+        JPanel panel = new JPanel(
+                new FlowLayout(FlowLayout.LEFT, 10, 10)
+        );
+
+        panel.setBackground(Color.WHITE);
+
+        TitledBorder borde = new TitledBorder(
+                "Periodo para actividades calendarizadas"
+        );
+
+        borde.setTitleColor(new Color(30, 70, 120));
+        panel.setBorder(borde);
+
+        panel.add(new JLabel("Desde:"));
+
+        spnFechaInicioActividades = crearSelectorFecha();
+        panel.add(spnFechaInicioActividades);
+
+        panel.add(new JLabel("Hasta:"));
+
+        spnFechaFinActividades = crearSelectorFecha();
+        panel.add(spnFechaFinActividades);
+
+        JButton btnConsultar = new JButton("Cargar actividades");
+        btnConsultar.setFocusPainted(false);
+        btnConsultar.setBackground(
+                new Color(70, 130, 180)
+        );
+        btnConsultar.setForeground(Color.WHITE);
+
+        btnConsultar.addActionListener(
+                e -> consultarActividades()
         );
 
         panel.add(btnConsultar);
@@ -217,6 +250,7 @@ public class PanelEstadisticas extends JPanel {
         contenido.add(scroll);
         contenido.add(graficoRecursos);
 
+        panel.add(crearPanelFechasRecursos(), BorderLayout.NORTH);
         panel.add(contenido, BorderLayout.CENTER);
 
         return panel;
@@ -277,6 +311,7 @@ public class PanelEstadisticas extends JPanel {
         contenido.add(scroll);
         contenido.add(graficoActividades);
 
+        panel.add(crearPanelFechasActividades(), BorderLayout.NORTH);
         panel.add(contenido, BorderLayout.CENTER);
 
         return panel;
@@ -306,12 +341,14 @@ public class PanelEstadisticas extends JPanel {
         );
     }
 
-    private void consultarEstadisticas() {
-        LocalDate fechaInicio =
-                obtenerFecha(spnFechaInicio);
+    private void consultarRecursos() {
+        LocalDate fechaInicio = obtenerFecha(
+                spnFechaInicioRecursos
+        );
 
-        LocalDate fechaFin =
-                obtenerFecha(spnFechaFin);
+        LocalDate fechaFin = obtenerFecha(
+                spnFechaFinRecursos
+        );
 
         if (fechaInicio.isAfter(fechaFin)) {
             JOptionPane.showMessageDialog(
@@ -328,6 +365,27 @@ public class PanelEstadisticas extends JPanel {
                 fechaInicio,
                 fechaFin
         );
+    }
+
+    private void consultarActividades() {
+        LocalDate fechaInicio = obtenerFecha(
+                spnFechaInicioActividades
+        );
+
+        LocalDate fechaFin = obtenerFecha(
+                spnFechaFinActividades
+        );
+
+        if (fechaInicio.isAfter(fechaFin)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "La fecha inicial no puede ser mayor que la fecha final.",
+                    "Fechas incorrectas",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
 
         cargarActividades(
                 fechaInicio,
