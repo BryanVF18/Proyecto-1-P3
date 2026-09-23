@@ -34,7 +34,7 @@
 
 ##### 
 
-##### **1.Funcionalidades principales.**
+##### **1. Funcionalidades principales.**
 
 ##### 
 
